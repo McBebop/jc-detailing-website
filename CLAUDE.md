@@ -61,7 +61,8 @@ Das Logo ist quadratisch (150×150 viewBox).
 ## Leistungen (= Unterseiten)
 
 1. **Keramikversiegelung** — Kernleistung, GYEON-zertifiziert
-2. **Lackschutzfolierung / PPF** — Kernleistung
+2. **Lackschutzfolierung / PPF** — Kernleistung. NUR Frontpaket (ab 1.900 €)
+   und Teilfolierung; KEINE Vollfolierung (kein Plotter vorhanden, Stand 07/2026)
 3. **Keramikpflege** — Maintenance-Programm für bereits keramikversiegelte
    Fahrzeuge. Differenzierungsmerkmal: Werterhalt-Abo-Gedanke.
 
