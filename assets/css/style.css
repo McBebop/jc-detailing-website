@@ -1,0 +1,911 @@
+/* ==========================================================================
+   JANETZKE CAR DETAILING — Design-System
+   Gyeon-inspiriert: Navy (Pantone 533 C), monumentale Versalien, viel Ruhe.
+   Eine Datei, alle Seiten. Kein Build-Prozess.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. Schriften — lokal gehostet (DSGVO, Ladezeit), Variable Fonts
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Oswald";
+  src: url("../fonts/oswald-var.woff2") format("woff2");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/inter-var.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   1. Design-Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Farben — Gyeon-Brand-Palette (Pantone 533 C), kein reines Schwarz */
+  --navy:      #21314D;   /* Primärfarbe, RGB 33 49 77 */
+  --navy-950:  #0C111C;   /* tiefster Grundton (abgedunkeltes Navy) */
+  --navy-900:  #121B2B;   /* Seitenhintergrund dunkel */
+  --navy-800:  #1A2740;   /* erhöhte Flächen, Karten */
+  --navy-700:  #4D5A71;   /* Tint 20 % Weiß */
+  --navy-600:  #7A8394;   /* Tint 40 % — gedämpfter Text */
+  --navy-500:  #A6ACB8;   /* Tint 60 % — Sekundärtext */
+  --navy-300:  #D3D6DB;   /* Tint 80 % — helle Linien auf hell */
+  --white:     #FFFFFF;
+  --off-white: #EEF0F4;   /* Standard-Typografie auf Navy */
+  --accent:    #A32530;   /* JC-Detailing-Rot — nur punktuell */
+
+  --bg:        var(--navy-950);
+  --bg-raise:  var(--navy-900);
+  --text:      var(--off-white);
+  --text-dim:  var(--navy-500);
+  --line:      rgba(238, 240, 244, 0.12);
+
+  /* Typografie */
+  --font-display: "Oswald", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --fs-hero:    clamp(2.75rem, 8vw, 6.75rem);
+  --fs-h2:      clamp(2.5rem, 7vw, 5.5rem);
+  --fs-h3:      clamp(1.75rem, 4vw, 2.75rem);
+  --fs-marquee: clamp(2.25rem, 6vw, 4.5rem);
+  --fs-lead:    clamp(1.0625rem, 1.4vw, 1.25rem);
+  --fs-body:    1rem;
+  --fs-small:   0.875rem;
+  --fs-label:   0.75rem;
+
+  --track-label: 0.22em;   /* Letterspacing für Labels/CTAs */
+  --track-display: 0.01em;
+
+  /* Abstände */
+  --space-xs:  0.5rem;
+  --space-s:   1rem;
+  --space-m:   1.5rem;
+  --space-l:   2.5rem;
+  --space-xl:  4rem;
+  --space-2xl: 6rem;
+  --space-3xl: clamp(6rem, 12vw, 10rem);
+
+  /* Layout */
+  --container: 1440px;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --header-h: 5rem;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Basis
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg, video { display: block; max-width: 100%; height: auto; }
+
+a { color: inherit; text-decoration: none; }
+
+ul, ol { list-style: none; }
+
+::selection { background: var(--navy); color: var(--white); }
+
+/* --------------------------------------------------------------------------
+   3. Typografie
+   -------------------------------------------------------------------------- */
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--track-display);
+  /* 1.14 statt 0.95: deutsche Versal-Umlaute (Ü/Ä/Ö) brauchen Luft über
+     der Versalhöhe, sonst kollidieren die Punkte mit der Zeile darüber
+     (besonders unter Zeilen mit Anführungszeichen) */
+  line-height: 1.14;
+  color: var(--white);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--fs-hero); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+
+.lead {
+  font-size: var(--fs-lead);
+  line-height: 1.7;
+  color: var(--text);
+  max-width: 42em;
+}
+
+.text-dim { color: var(--text-dim); }
+
+/* Kleines Versal-Label über Überschriften: "01 — Kernleistung" */
+.label {
+  display: block;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--text-dim);
+  margin-bottom: var(--space-m);
+}
+.label::before {
+  content: "";
+  display: inline-block;
+  width: 2rem;
+  height: 1px;
+  background: var(--accent);
+  vertical-align: middle;
+  margin-right: var(--space-s);
+}
+
+/* --------------------------------------------------------------------------
+   4. CTA-Link — typografisch, kein Button
+   -------------------------------------------------------------------------- */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--white);
+  padding-bottom: 0.5em;
+  position: relative;
+}
+.cta::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: var(--line);
+}
+.cta::before {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: var(--white);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease);
+  z-index: 1;
+}
+.cta:hover::before { transform: scaleX(1); transform-origin: left; }
+.cta .arrow { transition: transform 0.4s var(--ease); }
+.cta:hover .arrow { transform: translateX(0.4em); }
+
+/* --------------------------------------------------------------------------
+   5. Layout-Utilities
+   -------------------------------------------------------------------------- */
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section { padding-block: var(--space-3xl); }
+
+/* --------------------------------------------------------------------------
+   6. Header
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  transition: border-color 0.4s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+/* Hintergrund/Blur liegt auf einem Pseudo-Element: backdrop-filter direkt auf
+   dem Header würde ihn zum Containing Block machen und das fixe
+   Mobile-Overlay (.site-nav) im gescrollten Zustand zerbrechen */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(12, 17, 28, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+  pointer-events: none;
+}
+.site-header.is-scrolled::before { opacity: 1; }
+.site-header.is-scrolled { border-bottom-color: var(--line); }
+.site-header .container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-l);
+}
+.brand img { height: 2.25rem; width: auto; }
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-l);
+}
+.site-nav a:not(.cta) {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--text-dim);
+  transition: color 0.3s var(--ease);
+}
+.site-nav a:not(.cta):hover { color: var(--white); }
+
+/* Leistungen-Dropdown */
+.has-sub { position: relative; }
+.nav-sub-toggle {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--text-dim);
+  transition: color 0.3s var(--ease);
+}
+.nav-sub-toggle:hover { color: var(--white); }
+.nav-sub-toggle .chev {
+  font-size: 0.6em;
+  transition: transform 0.3s var(--ease);
+}
+.has-sub:hover .chev,
+.has-sub.is-open .chev { transform: rotate(180deg); }
+.sub-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(0.75rem);
+  min-width: 16rem;
+  display: grid;
+  padding-block: var(--space-xs);
+  background: rgba(12, 17, 28, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0.3s;
+}
+.sub-menu::before {
+  /* unsichtbare Brücke, damit der Hover beim Übergang nicht abreißt */
+  content: "";
+  position: absolute;
+  top: -1rem;
+  left: 0; right: 0;
+  height: 1rem;
+}
+.has-sub:hover .sub-menu,
+.has-sub:focus-within .sub-menu,
+.has-sub.is-open .sub-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0.5rem);
+}
+.site-nav .sub-menu a:not(.cta) { padding: 0.75rem 1.25rem; }
+.sub-menu a:hover { background: rgba(238, 240, 244, 0.05); }
+
+/* Mobile Navigation */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  width: 2.5rem; height: 2.5rem;
+  position: relative;
+  z-index: 110;
+}
+.nav-toggle span,
+.nav-toggle::before,
+.nav-toggle::after {
+  content: "";
+  position: absolute;
+  left: 0.375rem; right: 0.375rem;
+  height: 1px;
+  background: var(--white);
+  transition: transform 0.4s var(--ease), opacity 0.3s;
+}
+.nav-toggle::before { top: 0.875rem; }
+.nav-toggle span    { top: 50%; }
+.nav-toggle::after  { bottom: 0.875rem; }
+.nav-toggle[aria-expanded="true"]::before { transform: translateY(0.36rem) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span    { opacity: 0; }
+.nav-toggle[aria-expanded="true"]::after  { transform: translateY(-0.36rem) rotate(-45deg); }
+
+@media (max-width: 48rem) {
+  .nav-toggle { display: block; }
+  .site-nav {
+    position: fixed;
+    inset: 0;
+    z-index: 105;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-l);
+    background: var(--navy-950);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s var(--ease), visibility 0.4s;
+  }
+  .site-nav.is-open { opacity: 1; visibility: visible; }
+  .site-nav a:not(.cta) {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--white);
+  }
+  /* Overlay geschlossen: komplett unklickbar (sonst fangen unsichtbare
+     Links Klicks auf den Hero ab) */
+  .site-nav { pointer-events: none; }
+  .site-nav.is-open { pointer-events: auto; }
+  /* Im Overlay: kein Dropdown — die Leistungs-Links stehen direkt in der Liste */
+  .nav-sub-toggle { display: none; }
+  .sub-menu {
+    position: static;
+    transform: none;
+    opacity: 1;
+    /* inherit statt visible: folgt dem Auf/Zu-Zustand des Overlays */
+    visibility: inherit;
+    background: none;
+    border: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    min-width: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-l);
+    text-align: center;
+  }
+  .site-nav .sub-menu a:not(.cta) { padding: 0; }
+  .sub-menu a:hover { background: none; }
+  .sub-menu::before { display: none; }
+  /* Desktop-Dropdown-Verschiebung im Overlay neutralisieren, sonst rutscht
+     die Liste bei Hover/Fokus (translateX(-50%)) nach links */
+  .has-sub:hover .sub-menu,
+  .has-sub:focus-within .sub-menu,
+  .has-sub.is-open .sub-menu { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   7. Hero
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  padding-block: var(--space-2xl) var(--space-xl);
+}
+.hero__media { position: absolute; inset: 0; z-index: -1; }
+.hero__media video,
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* links verankern: der "PROJECT REEL"-Schriftzug im GYEON-Reel bleibt
+     sichtbar, beschnitten wird nur die rechte Bildkante */
+  object-position: left center;
+}
+.hero__media::after {
+  /* Abdunklung + Verlauf für Lesbarkeit über Video/Bild */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(12, 17, 28, 0.92) 0%,
+    rgba(12, 17, 28, 0.5) 45%,
+    rgba(12, 17, 28, 0.65) 100%
+  );
+}
+.hero__content { width: 100%; }
+.hero__content h1 { max-width: 12em; }
+.hero__trust {
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  margin-bottom: var(--space-l);
+}
+.hero__trust img { height: 8rem; width: auto; }
+.hero__trust p {
+  max-width: 22em;
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--text-dim);
+  border-left: 1px solid var(--line);
+  padding-left: var(--space-m);
+  line-height: 1.8;
+}
+.hero__trust strong {
+  display: block;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.35em;
+}
+.hero p.lead { margin-block: var(--space-l); }
+
+/* --------------------------------------------------------------------------
+   8. Bild-Platzhalter (bis GYEON-Pressebilder vorliegen)
+   -------------------------------------------------------------------------- */
+/* :where() hält die Spezifität bei 0 — als Hero-/Panel-Hintergrund gewinnt
+   deren position: absolute, standalone bleibt der Platzhalter relativ. */
+:where(.media-ph) { position: relative; }
+.media-ph {
+  height: 100%;
+  min-height: 16rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 30%, rgba(77, 90, 113, 0.25), transparent 70%),
+    linear-gradient(160deg, var(--navy-800), var(--navy-950) 75%);
+  overflow: hidden;
+}
+.media-ph::before {
+  content: "";
+  position: absolute;
+  inset: 1rem;
+  border: 1px dashed rgba(238, 240, 244, 0.15);
+  pointer-events: none;
+}
+.media-ph__note {
+  /* oben rechts — kollidiert nicht mit dem unten ausgerichteten Inhalt */
+  position: absolute;
+  z-index: 1;
+  right: 2rem;
+  top: calc(var(--header-h) + 1.5rem);
+  max-width: 70%;
+  text-align: right;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  line-height: 1.9;
+  color: var(--navy-600);
+}
+.media-ph__note strong {
+  display: block;
+  color: var(--navy-300);
+}
+
+/* --------------------------------------------------------------------------
+   9. Marquee-Band
+   -------------------------------------------------------------------------- */
+.marquee {
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  padding-block: var(--space-m);
+  user-select: none;
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+}
+.marquee__group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.marquee span {
+  font-family: var(--font-display);
+  font-size: var(--fs-marquee);
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: var(--white);
+  white-space: nowrap;
+  padding-inline: 0.6em;
+}
+.marquee span.dot { color: var(--accent); padding-inline: 0; font-size: 0.5em; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+/* Marken-Band ist länger — langsamer laufen lassen, gleiche gefühlte Ruhe */
+.marquee--slow .marquee__track { animation-duration: 70s; }
+/* Marken-Logos (PNG/SVG mit transparentem Hintergrund, beliebige Farbe):
+   der Filter färbt alles einheitlich weiß — Originalfarben würden auf Navy
+   nicht funktionieren (schwarze Logos unsichtbar, bunte unruhig) */
+.marquee img {
+  height: clamp(1.5rem, 3.5vw, 2.75rem);
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+  align-self: center;
+  margin-inline: 0.6em;
+}
+
+/* --------------------------------------------------------------------------
+   10. Full-Screen-Leistungs-Sections
+   -------------------------------------------------------------------------- */
+.panel {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+}
+.panel__media { position: absolute; inset: 0; z-index: -1; }
+.panel__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(12, 17, 28, 0.9) 0%,
+    rgba(12, 17, 28, 0.15) 55%
+  );
+}
+.panel__content {
+  width: 100%;
+  padding-block: var(--space-2xl);
+  display: grid;
+  gap: var(--space-l);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+}
+@media (min-width: 64rem) {
+  .panel__content { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+}
+.panel p { max-width: 34em; color: var(--text); }
+.panel__aside {
+  display: grid;
+  gap: var(--space-l);
+  justify-items: start;
+}
+@media (min-width: 64rem) {
+  .panel__aside { justify-items: end; text-align: right; }
+}
+
+/* --------------------------------------------------------------------------
+   11. Sekundär-Band (für untergeordnete Inhalte)
+   -------------------------------------------------------------------------- */
+.strip {
+  background: var(--bg-raise);
+  border-block: 1px solid var(--line);
+}
+.strip .container {
+  padding-block: var(--space-2xl);
+  display: grid;
+  gap: var(--space-l);
+  align-items: center;
+}
+@media (min-width: 64rem) {
+  .strip .container { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+  .strip .cta { justify-self: end; }
+}
+.strip p { max-width: 40em; color: var(--text-dim); margin-top: var(--space-s); }
+
+/* --------------------------------------------------------------------------
+   12. Bewertungen
+   -------------------------------------------------------------------------- */
+.reviews-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: var(--space-xl);
+}
+@media (min-width: 48rem) { .reviews-grid { grid-template-columns: 1fr 1fr; } }
+.review {
+  background: var(--bg);
+  padding: var(--space-l);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+.review__stars {
+  color: var(--accent);
+  font-size: var(--fs-small);
+  letter-spacing: 0.3em;
+}
+.review blockquote {
+  color: var(--text-dim);
+  line-height: 1.7;
+  flex: 1;
+}
+.review figcaption {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+  color: var(--white);
+}
+.reviews-note {
+  margin-top: var(--space-m);
+  font-size: var(--fs-small);
+  color: var(--navy-600);
+}
+
+/* --------------------------------------------------------------------------
+   13. Kontakt-Finale
+   -------------------------------------------------------------------------- */
+.contact-final { text-align: center; }
+.contact-final h2 a {
+  transition: color 0.4s var(--ease);
+}
+.contact-final h2 a:hover { color: var(--navy-500); }
+.contact-final address {
+  font-style: normal;
+  margin-top: var(--space-xl);
+  display: grid;
+  gap: var(--space-xs);
+  color: var(--text-dim);
+}
+.contact-final address a { color: var(--text); transition: color 0.3s; }
+.contact-final address a:hover { color: var(--navy-500); }
+
+/* --------------------------------------------------------------------------
+   14. Footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding-block: var(--space-l);
+  font-size: var(--fs-small);
+  color: var(--navy-600);
+}
+.site-footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+}
+.site-footer nav { display: flex; gap: var(--space-m); }
+.site-footer a { transition: color 0.3s; }
+.site-footer a:hover { color: var(--off-white); }
+.site-footer img { height: 3.5rem; width: auto; opacity: 0.85; }
+
+/* --------------------------------------------------------------------------
+   15. Unterseiten-Komponenten
+   -------------------------------------------------------------------------- */
+/* Reduzierter Seiten-Hero (Leistungsseiten) */
+.panel--page { min-height: 78vh; min-height: 78svh; }
+.panel--page h1 { font-size: var(--fs-h2); }
+
+/* Zweispaltiges Inhaltsraster: links Label + Überschrift, rechts Inhalt */
+.split { display: grid; gap: var(--space-l) var(--space-2xl); align-items: start; }
+@media (min-width: 64rem) {
+  .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); }
+}
+.split h2 { font-size: var(--fs-h3); }
+
+/* Leistungsumfang-Liste */
+.feature-list { border-top: 1px solid var(--line); }
+.feature-list li {
+  border-bottom: 1px solid var(--line);
+  padding-block: var(--space-m);
+  display: grid;
+  gap: 0.25rem;
+}
+.feature-list strong { color: var(--white); font-weight: 600; }
+.feature-list p { color: var(--text-dim); font-size: var(--fs-small); }
+
+/* Ablauf-Schritte */
+.steps {
+  counter-reset: step;
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+@media (min-width: 48rem) { .steps { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 80rem) { .steps { grid-template-columns: repeat(4, 1fr); } }
+.steps li { counter-increment: step; background: var(--bg); padding: var(--space-l); }
+.steps li::before {
+  content: "0" counter(step);
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: 1;
+  color: var(--navy-700);
+  margin-bottom: var(--space-m);
+}
+.steps h3 {
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5em;
+}
+.steps p { color: var(--text-dim); font-size: var(--fs-small); }
+
+/* Preis-Anzeige ("ab"-Preise) */
+.price {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.price .ab {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--track-label);
+  color: var(--text-dim);
+  margin-bottom: var(--space-s);
+}
+.price-note {
+  margin-top: var(--space-m);
+  font-size: var(--fs-small);
+  color: var(--text-dim);
+  max-width: 36em;
+}
+
+/* Porträt (Hochformat, z. B. Studio-Seite) */
+.portrait {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  /* height:auto nötig, damit aspect-ratio das height:100% der
+     .media-ph-Platzhalterklasse überstimmt */
+  height: auto;
+  min-height: 0;
+  overflow: hidden;
+  max-width: 28rem;
+}
+.portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.portrait .media-ph__note { top: 1.5rem; right: 1.5rem; }
+
+/* Bildband zwischen Sections */
+.media-band { position: relative; overflow: hidden; min-height: 55vh; min-height: 55svh; }
+
+/* Echte Bilder in Panels und Bildbändern */
+.panel__media img,
+.media-band img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Kontakt */
+.biglink {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--white);
+  transition: color 0.3s var(--ease);
+}
+.biglink:hover { color: var(--navy-500); }
+.map-frame { position: relative; height: 26rem; }
+.map-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: grayscale(1) contrast(1.05);
+}
+/* DSGVO-Zwei-Klick: Karte lädt erst nach Einwilligung */
+.map-consent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-s);
+  padding: var(--space-l);
+  background: var(--bg-raise);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  color: var(--text-dim);
+  text-align: center;
+  transition: background 0.3s var(--ease);
+}
+.map-consent:hover { background: var(--navy-800); }
+.map-consent strong {
+  color: var(--white);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+}
+.map-consent a { text-decoration: underline; }
+
+/* FAQ-Accordion (native details/summary) */
+.faq { border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-m);
+  padding-block: var(--space-m);
+  font-weight: 600;
+  color: var(--white);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+";
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--navy-500);
+  flex-shrink: 0;
+  transition: transform 0.3s var(--ease);
+}
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq .faq__a {
+  padding-bottom: var(--space-m);
+  color: var(--text-dim);
+  max-width: 60ch;
+}
+
+/* Prosa (Impressum/Datenschutz) */
+.prose { max-width: 46em; }
+.prose h1 { font-size: var(--fs-h2); margin-bottom: var(--space-xl); }
+.prose h2 { font-size: var(--fs-h3); margin-top: var(--space-2xl); margin-bottom: var(--space-m); }
+.prose p, .prose ul { margin-bottom: var(--space-m); color: var(--text-dim); }
+.prose ul { list-style: disc; padding-left: 1.25em; }
+.placeholder-note {
+  border-left: 2px solid var(--accent);
+  padding: var(--space-m);
+  background: var(--bg-raise);
+  color: var(--text-dim);
+  font-size: var(--fs-small);
+  margin-block: var(--space-l);
+}
+
+/* --------------------------------------------------------------------------
+   16. Scroll-Reveal
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .marquee__track { animation: none; }
+}
