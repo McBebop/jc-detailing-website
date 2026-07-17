@@ -69,6 +69,12 @@
         });
       heroVideo.autoplay = true;
       heroVideo.load();
+      /* Safari startet Autoplay nicht immer von selbst: explizit anstoßen,
+         bei Ablehnung (z. B. Stromsparmodus) bleibt das Poster */
+      var playAttempt = heroVideo.play();
+      if (playAttempt && playAttempt.catch) {
+        playAttempt.catch(function () {});
+      }
     }
   }
 
