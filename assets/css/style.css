@@ -749,6 +749,8 @@ h3 { font-size: var(--fs-h3); }
 }
 @media (min-width: 48rem) { .steps { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 80rem) { .steps { grid-template-columns: repeat(4, 1fr); } }
+/* Variante für 6 Einträge (z. B. Mythen im Ratgeber): 3er-Raster ohne Leerfläche */
+@media (min-width: 80rem) { .steps--three { grid-template-columns: repeat(3, 1fr); } }
 .steps li { counter-increment: step; background: var(--bg); padding: var(--space-l); }
 .steps li::before {
   content: "0" counter(step);
