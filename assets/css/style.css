@@ -836,10 +836,10 @@ h3 { font-size: var(--fs-h3); }
   gap: 0.5rem;
   padding: 0.6rem 0.75rem;
   padding-bottom: calc(0.6rem + env(safe-area-inset-bottom));
-  background: rgba(12, 17, 28, 0.94);
+  /* kein backdrop-filter: Blur auf fixierten Elementen ruckelt beim
+     Scrollen auf Mobilgeräten — stattdessen fast deckender Hintergrund */
+  background: rgba(12, 17, 28, 0.97);
   border-top: 1px solid var(--line);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 .mobile-cta a {
   display: inline-flex;
@@ -855,8 +855,8 @@ h3 { font-size: var(--fs-h3); }
 }
 .mobile-cta__primary {
   flex: 1;
-  background: var(--accent);
-  color: var(--white);
+  background: var(--off-white);
+  color: var(--navy-950);
 }
 .mobile-cta__ghost {
   flex: 0 0 3.25rem;
