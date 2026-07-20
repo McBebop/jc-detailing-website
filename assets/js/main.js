@@ -51,15 +51,19 @@
     if (e.key === "Escape") closeSubs(null);
   });
 
-  /* Hero-Video: nur laden, wenn großer Screen, keine Reduced-Motion,
-     kein Datensparmodus — sonst bleibt das Poster-Standbild */
+  /* Hero-Video: große Screens bekommen die volle Qualität, Mobilgeräte die
+     komprimierte Mobilvariante. Bei Reduced-Motion oder Datensparmodus
+     bleibt das Poster-Standbild */
   var heroVideo = document.querySelector(".hero__video");
   if (heroVideo) {
     var wantsMotion = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var isWide = window.matchMedia("(min-width: 48rem)").matches;
     var savesData = navigator.connection && navigator.connection.saveData;
-    if (wantsMotion && isWide && !savesData) {
-      [["webm", heroVideo.dataset.srcWebm], ["mp4", heroVideo.dataset.srcMp4]]
+    if (wantsMotion && !savesData) {
+      var sources = isWide
+        ? [["webm", heroVideo.dataset.srcWebm], ["mp4", heroVideo.dataset.srcMp4]]
+        : [["mp4", heroVideo.dataset.srcMobile || heroVideo.dataset.srcMp4]];
+      sources
         .forEach(function (s) {
           if (!s[1]) return;
           var source = document.createElement("source");

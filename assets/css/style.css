@@ -654,9 +654,27 @@ h3 { font-size: var(--fs-h3); }
    -------------------------------------------------------------------------- */
 .contact-final { text-align: center; }
 .contact-final h2 a {
+  position: relative;
   transition: color 0.4s var(--ease);
 }
 .contact-final h2 a:hover { color: var(--navy-500); }
+/* Unterstrich-Animation wie beim .cta: wächst von links rein, verschwindet nach rechts */
+.contact-final h2 a::before {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -0.06em;
+  width: 100%; height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease);
+}
+.contact-final h2 a:hover::before { transform: scaleX(1); transform-origin: left; }
+.contact-final h2 a span {
+  display: inline-block;
+  transition: transform 0.4s var(--ease);
+}
+.contact-final h2 a:hover span { transform: translateX(0.4em); }
 .contact-final address {
   font-style: normal;
   margin-top: var(--space-xl);
@@ -686,7 +704,7 @@ h3 { font-size: var(--fs-h3); }
 .site-footer nav { display: flex; gap: var(--space-m); }
 .site-footer a { transition: color 0.3s; }
 .site-footer a:hover { color: var(--off-white); }
-.site-footer img { height: 3.5rem; width: auto; opacity: 0.85; }
+.site-footer img { height: 6rem; width: auto; opacity: 0.95; }
 
 /* --------------------------------------------------------------------------
    15. Unterseiten-Komponenten
@@ -798,6 +816,35 @@ h3 { font-size: var(--fs-h3); }
   height: 100%;
   object-fit: cover;
 }
+
+/* Kontakt — Aktions-Buttons (Pill-Stil mit Icon) */
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.85em 1.6em;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  color: var(--white);
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease),
+              transform 0.3s var(--ease);
+}
+.btn:hover {
+  border-color: var(--white);
+  transform: translateY(-2px);
+}
+.btn svg { width: 1.2em; height: 1.2em; flex: none; }
+.btn--whatsapp svg { color: #25D366; }
 
 /* Kontakt */
 .biglink {
