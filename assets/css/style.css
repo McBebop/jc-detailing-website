@@ -418,6 +418,14 @@ h3 { font-size: var(--fs-h3); }
      sichtbar, beschnitten wird nur die rechte Bildkante */
   object-position: left center;
 }
+/* Hochformat/Handy: linke Verankerung würde nur den Schriftzug-Randstreifen
+   zeigen — hier stattdessen die Bildmitte (da spielt die Action) */
+@media (max-width: 47.9375rem) {
+  .hero__media video,
+  .hero__media img {
+    object-position: center;
+  }
+}
 .hero__media::after {
   /* Abdunklung + Verlauf für Lesbarkeit über Video/Bild */
   content: "";
