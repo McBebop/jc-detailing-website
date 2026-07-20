@@ -63,6 +63,9 @@
       var sources = isWide
         ? [["webm", heroVideo.dataset.srcWebm], ["mp4", heroVideo.dataset.srcMp4]]
         : [["mp4", heroVideo.dataset.srcMobile || heroVideo.dataset.srcMp4]];
+      if (!isWide && heroVideo.dataset.posterMobile) {
+        heroVideo.poster = heroVideo.dataset.posterMobile;
+      }
       sources
         .forEach(function (s) {
           if (!s[1]) return;
