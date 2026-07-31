@@ -1024,6 +1024,25 @@ h3 { font-size: var(--fs-h3); }
   color: var(--text-dim);
   max-width: 32ch;
 }
+.shots-nav { display: none; gap: var(--space-xs); margin-top: var(--space-s); }
+@media (min-width: 48rem) {
+  .shots-nav { display: flex; }
+}
+.shots-nav__btn {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), opacity 0.2s var(--ease);
+}
+.shots-nav__btn:hover:not(:disabled) { border-color: var(--text); }
+.shots-nav__btn:disabled { opacity: 0.35; cursor: default; }
 
 /* --------------------------------------------------------------------------
    16. Scroll-Reveal

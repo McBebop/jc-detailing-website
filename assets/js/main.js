@@ -101,6 +101,36 @@
     });
   }
 
+  /* Bildstrecke: Pfeil-Navigation (CSS zeigt sie nur auf großen Screens,
+     mobil wird gewischt) */
+  document.querySelectorAll(".shots").forEach(function (shots) {
+    var nav = document.createElement("div");
+    nav.className = "shots-nav";
+    nav.innerHTML =
+      '<button type="button" class="shots-nav__btn" data-dir="-1" aria-label="Vorherige Bilder">←</button>' +
+      '<button type="button" class="shots-nav__btn" data-dir="1" aria-label="Weitere Bilder">→</button>';
+    shots.parentElement.insertBefore(nav, shots.nextSibling);
+    var prev = nav.querySelector('[data-dir="-1"]');
+    var next = nav.querySelector('[data-dir="1"]');
+    function step() {
+      var fig = shots.querySelector("figure");
+      return fig ? fig.getBoundingClientRect().width + 16 : shots.clientWidth * 0.8;
+    }
+    function update() {
+      var max = shots.scrollWidth - shots.clientWidth - 1;
+      prev.disabled = shots.scrollLeft <= 0;
+      next.disabled = shots.scrollLeft >= max;
+    }
+    nav.addEventListener("click", function (e) {
+      var btn = e.target.closest("button");
+      if (!btn) return;
+      shots.scrollBy({ left: step() * btn.dataset.dir, behavior: "smooth" });
+    });
+    shots.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  });
+
   /* Scroll-Reveal */
   var revealed = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window) {
