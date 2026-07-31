@@ -995,6 +995,37 @@ h3 { font-size: var(--fs-h3); }
 }
 
 /* --------------------------------------------------------------------------
+   15b. Bildstrecke (horizontal scrollbare Arbeitsfotos)
+   -------------------------------------------------------------------------- */
+.shots {
+  display: flex;
+  gap: var(--space-s);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--space-s);
+  margin-top: var(--space-xl);
+}
+.shots::-webkit-scrollbar { height: 6px; }
+.shots::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+.shots figure {
+  flex: 0 0 auto;
+  margin: 0;
+  scroll-snap-align: start;
+}
+.shots img {
+  height: min(60vh, 520px);
+  width: auto;
+  display: block;
+}
+.shots figcaption {
+  margin-top: var(--space-xs);
+  font-size: var(--fs-small);
+  color: var(--text-dim);
+  max-width: 32ch;
+}
+
+/* --------------------------------------------------------------------------
    16. Scroll-Reveal
    -------------------------------------------------------------------------- */
 .reveal {
