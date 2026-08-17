@@ -1059,3 +1059,75 @@ h3 { font-size: var(--fs-h3); }
   .reveal { opacity: 1; transform: none; transition: none; }
   .marquee__track { animation: none; }
 }
+
+/* Consent-Banner: unten fixiert, erscheint nur solange keine
+   Entscheidung gespeichert ist (assets/js/consent.js) */
+.consent {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 120;   /* über Header (110) und mobiler Kontaktleiste (60) */
+  /* kein backdrop-filter, siehe .mobile-cta */
+  background: rgba(12, 17, 28, 0.97);
+  border-top: 1px solid var(--line);
+  padding: var(--space-m) var(--gutter);
+  padding-bottom: calc(var(--space-m) + env(safe-area-inset-bottom));
+}
+.consent__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-l);
+}
+.consent__text {
+  margin: 0;
+  font-size: var(--fs-small);
+  color: var(--text-dim);
+  max-width: 62ch;
+}
+.consent__text strong { color: var(--text); }
+.consent__text a { color: var(--text); text-decoration: underline; }
+.consent__actions {
+  display: flex;
+  gap: var(--space-xs);
+  margin-left: auto;
+  flex: none;
+}
+.consent__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0 1.5em;
+  border: 1px solid rgba(238, 240, 244, 0.25);
+  border-radius: 0.5rem;
+  background: none;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+.consent__btn:hover { border-color: rgba(238, 240, 244, 0.5); }
+.consent__btn--primary {
+  background: var(--off-white);
+  color: var(--navy-950);
+  border-color: var(--off-white);
+}
+@media (max-width: 47.9375rem) {
+  .consent__inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-s);
+  }
+  .consent__actions { margin-left: 0; }
+  .consent__btn { flex: 1; }
+}
+@media (max-width: 47.9375rem) {
+  /* Solange das Consent-Banner offen ist, weicht die mobile
+     Kontaktleiste (laege sonst verdeckt dahinter) */
+  body.has-consent-banner .mobile-cta { display: none; }
+}
